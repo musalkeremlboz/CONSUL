@@ -68,9 +68,6 @@ dmg:
 linux:
   icon: build/icon.png
   category: Development
-  # Pencereleri .desktop girdisiyle eşleştirir (WM_CLASS)
-  desktopName: consul.desktop
-  synchronizeDesktopName: true
   synopsis: Modern, sekmeli, proje hafızalı geliştirici terminali
   artifactName: CONSUL-${version}-${arch}.${ext}
   desktop:
