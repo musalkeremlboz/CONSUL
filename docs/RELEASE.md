@@ -13,17 +13,18 @@ Git etiketi `v` önekiyle: `v1.0.0`.
 
 ## Ön koşullar (bir kez)
 
-1. `electron-builder.yml` içindeki `publish.owner` alanını GitHub hesabınla doldur:
+1. `electron-builder.yml` içindeki `publish` bloğu doldurulmuştur:
 
    ```yaml
    publish:
      - provider: github
-       owner: <github-kullanıcısı>
+       owner: musalkeremlboz
        repo: CONSUL
    ```
 
    Bu değer derleme sırasında `app-update.yml`ye gömülür; kurulu uygulama
-   güncellemeleri buradan arar. Yanlışsa güncelleme çalışmaz.
+   güncellemeleri buradan arar. Hesap veya depo adı değişirse **burayı
+   güncelleyip yeniden paketlemek şarttır** — yoksa güncelleme çalışmaz.
 
 2. (İsteğe bağlı) İmzalama secret'larını GitHub deposuna ekle —
    bkz. [SIGNING.md](SIGNING.md). Yoksa build imzasız devam eder.

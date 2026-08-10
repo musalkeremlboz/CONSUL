@@ -19,11 +19,11 @@ asarUnpack:
 npmRebuild: false
 
 # Otomatik güncelleme: GitHub Releases.
-# `owner`/`repo` yayın öncesi doldurulur (bkz. docs/RELEASE.md); değerler
-# derleme sırasında app-update.yml'ye gömülür.
+# Bu değerler derleme sırasında app-update.yml'ye gömülür; kurulu uygulama
+# güncellemeleri buradan arar (bkz. docs/RELEASE.md).
 publish:
   - provider: github
-    owner: REPO_OWNER
+    owner: musalkeremlboz
     repo: CONSUL
     releaseType: release
 
