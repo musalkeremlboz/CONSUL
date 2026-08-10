@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "private": true,
   "description": "CONSUL — modern, sekmeli, proje hafızalı geliştirici terminali",
-  "author": "Musa Kerem Boz",
+  "author": {
+    "name": "Musa Kerem Boz",
+    "email": "musakeremboz@keemail.me"
+  },
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",

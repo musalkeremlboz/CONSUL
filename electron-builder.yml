@@ -48,7 +48,8 @@ nsis:
   deleteAppDataOnUninstall: false
 
 mac:
-  icon: build/icon-256.png
+  # macOS en az 512x512 ister — build/icon.png 1024x1024'tur
+  icon: build/icon.png
   category: public.app-category.developer-tools
   artifactName: CONSUL-${version}-${arch}.${ext}
   target:
@@ -65,8 +66,11 @@ dmg:
   title: CONSUL ${version}
 
 linux:
-  icon: build/icon-256.png
+  icon: build/icon.png
   category: Development
+  # Pencereleri .desktop girdisiyle eşleştirir (WM_CLASS)
+  desktopName: consul.desktop
+  synchronizeDesktopName: true
   synopsis: Modern, sekmeli, proje hafızalı geliştirici terminali
   artifactName: CONSUL-${version}-${arch}.${ext}
   desktop:
