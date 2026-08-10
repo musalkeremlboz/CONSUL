@@ -4,8 +4,11 @@
  *  boyutlandırma ve yeniden başlatma. Ayar, dosya sistemi, proje veya
  *  güncelleme kanalı BURADA YOKTUR. */
 import { contextBridge, ipcRenderer } from 'electron'
-import { DEV_IPC } from '../shared/ipc'
+import { DEV_IPC } from '../shared/devIpc'
 import type { PtyDataEvent, PtyExitEvent } from '../shared/types'
+
+// NOT: buradaki tüm içe aktarmalar ya `electron` (harici) ya da
+// tip-yalnız olmalıdır — aksi hâlde paylaşılan chunk üretilir.
 
 export interface DeveloperBootstrapView {
   workspace: string

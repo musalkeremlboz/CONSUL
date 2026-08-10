@@ -52,12 +52,6 @@ export const IPC = {
   winMaximized: 'win:maximized',
 } as const
 
-/** CONSUL Developer'ın kendi (çok daha dar) kanal kümesi. */
-export const DEV_IPC = {
-  bootstrap: 'dev:bootstrap',
-  ptyWrite: 'dev:ptyWrite',
-  ptyResize: 'dev:ptyResize',
-  ptyData: 'dev:ptyData',
-  ptyExit: 'dev:ptyExit',
-  restart: 'dev:restart',
-} as const
+// CONSUL Developer kanalları BİLEREK ayrı modüldedir: iki preload ortak bir
+// modül paylaşırsa Rollup chunk üretir ve sandbox'lı preload çöker.
+// Bkz. src/shared/devIpc.ts

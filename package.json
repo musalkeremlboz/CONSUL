@@ -8,7 +8,7 @@
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
-    "build": "electron-vite build",
+    "build": "electron-vite build && node scripts/check-preload.mjs",
     "start": "electron-vite preview",
     "typecheck": "tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.web.json --noEmit && tsc -p tsconfig.test.json --noEmit",
     "lint": "eslint . --max-warnings 0",
@@ -22,7 +22,8 @@
     "package:linux": "electron-vite build && electron-builder --linux --publish never",
     "smoke:pty": "node scripts/pty-smoke.mjs",
     "migrate:council-memory": "node scripts/migrate-council-memory.mjs",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "check:preload": "node scripts/check-preload.mjs"
   },
   "dependencies": {
     "@lydell/node-pty": "1.2.0-beta.14",

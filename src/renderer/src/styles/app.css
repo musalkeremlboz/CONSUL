@@ -66,14 +66,19 @@ select {
 
 /* ── Düzen ─────────────────────────────────────────────────────── */
 
+/* Dikey yığın: sekme çubuğu ve güncelleme şeridi KOŞULLU olarak çizilir.
+   Sabit satırlı bir grid, çocuk sayısı değiştiğinde yanlış satıra hizalar ve
+   gövdeyi sıfır yükseklikte bırakır — bu yüzden flex kullanılır. */
 .c-app {
-  display: grid;
-  grid-template-rows: var(--c-titlebar-h) auto auto 1fr var(--c-status-h);
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  overflow: hidden;
 }
 
 .c-app__body {
   position: relative;
+  flex: 1 1 auto;
   min-height: 0;
   background: var(--c-bg);
 }
@@ -84,6 +89,8 @@ select {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 0 0 auto;
+  height: var(--c-titlebar-h);
   padding-left: 12px;
   background: var(--c-surface);
   border-bottom: 1px solid var(--c-border);
@@ -190,6 +197,7 @@ select {
 /* ── Sekmeler ──────────────────────────────────────────────────── */
 
 .c-tabs {
+  flex: 0 0 auto;
   background: var(--c-surface);
   border-bottom: 1px solid var(--c-border);
 }
@@ -447,6 +455,8 @@ select {
 .c-status {
   display: flex;
   align-items: center;
+  flex: 0 0 auto;
+  min-height: var(--c-status-h);
   gap: 14px;
   padding: 0 12px;
   background: var(--c-surface);
@@ -962,6 +972,7 @@ select {
 .c-update {
   display: flex;
   align-items: center;
+  flex: 0 0 auto;
   gap: 14px;
   padding: 8px 14px;
   background: var(--c-surface-2);

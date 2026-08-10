@@ -7,7 +7,7 @@
 import { BrowserWindow, ipcMain, type IpcMainEvent, type IpcMainInvokeEvent } from 'electron'
 import { join } from 'node:path'
 import { v } from '../../core/schema'
-import { DEV_IPC } from '../../shared/ipc'
+import { DEV_IPC } from '../../shared/devIpc'
 import { resolveShell } from '../platform/shells'
 import { buildPtyEnv } from '../terminal/env'
 import { PtyError, PtyManager, type PtyLaunchSpec } from '../terminal/ptyManager'
