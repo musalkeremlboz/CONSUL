@@ -25,7 +25,9 @@ publish:
   - provider: github
     owner: musalkeremlboz
     repo: CONSUL
-    releaseType: release
+    # TASLAK olarak yayınlanır: üç platform da yüklenip SHA256 sağlamaları
+    # eklenene kadar yayın görünür olmaz (release.yml sonunda açar).
+    releaseType: draft
 
 win:
   icon: build/icon.ico
