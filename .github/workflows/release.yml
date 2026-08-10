@@ -1,0 +1,93 @@
+name: Release
+
+# `v*` etiketi itildiğinde üç platform için kurulum paketleri üretir, taslak
+# bir GitHub Release'e yükler, SHA256 sağlamalarını ekler ve yayını açar.
+#
+# İmzalama: sertifika secret'ları TANIMLIYSA kullanılır, değilse build imzasız
+# devam eder (sahte imzalama yapılmaz — bkz. docs/SIGNING.md).
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    name: Doğrulama
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+
+  build:
+    name: Paket · ${{ matrix.os }}
+    needs: verify
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            script: package:win
+          - os: macos-latest
+            script: package:mac
+          - os: ubuntu-latest
+            script: package:linux
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Paketle ve taslak yayına yükle
+        run: npx electron-vite build && npx electron-builder --${{ startsWith(matrix.os, 'windows') && 'win' || startsWith(matrix.os, 'macos') && 'mac' || 'linux' }} --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Windows kod imzalama (secret yoksa boş kalır → imzasız build)
+          CSC_LINK: ${{ runner.os == 'Windows' && secrets.WIN_CSC_LINK || runner.os == 'macOS' && secrets.MAC_CSC_LINK || '' }}
+          CSC_KEY_PASSWORD: ${{ runner.os == 'Windows' && secrets.WIN_CSC_KEY_PASSWORD || runner.os == 'macOS' && secrets.MAC_CSC_KEY_PASSWORD || '' }}
+          # macOS notarization (secret yoksa atlanır)
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
+  checksums:
+    name: Sağlamalar ve yayın
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Yayın varlıklarını indir
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p assets
+          gh release download "${GITHUB_REF_NAME}" --dir assets --pattern '*' --clobber
+
+      - name: SHA256 üret
+        working-directory: assets
+        run: |
+          rm -f SHA256SUMS.txt
+          sha256sum * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Sağlamaları yükle ve yayını aç
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${GITHUB_REF_NAME}" assets/SHA256SUMS.txt --clobber
+          gh release edit "${GITHUB_REF_NAME}" --draft=false

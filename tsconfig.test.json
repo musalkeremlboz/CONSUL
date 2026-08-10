@@ -1,0 +1,17 @@
+{
+  "// not": "Testler hem main (Node) hem renderer (DOM) modüllerini içe aktarır; bu yüzden ayrı bir proje olarak derlenir. Main projesine DOM lib'i EKLENMEZ — main sürecin yanlışlıkla DOM API'si kullanması derleme hatası olarak kalmalıdır.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": ["tests", "src/main", "src/core", "src/shared", "src/renderer/src/state"]
+}

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Sıkı CSP: uzak kaynak yüklenemez, satır içi script çalışmaz.
+         Stiller Vite tarafından satır içi enjekte edilebildiği için style-src'de
+         'unsafe-inline' bilinçli olarak açıktır; script için AÇIK DEĞİLDİR. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <title>CONSUL</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+# Depoda daima LF; çalışma kopyasında platformun yerel biçimi.
+# Cross-platform bir depoda satır sonu karmaşası diff gürültüsü üretir.
+* text=auto eol=lf
+
+# Kabuk betikleri LF olmalı (CRLF ile çalışmazlar)
+*.sh   text eol=lf
+*.mjs  text eol=lf
+
+# NSIS betiği Windows araç zinciriyle işlenir
+*.nsh  text eol=crlf
+
+# İkili dosyalar
+*.png  binary
+*.ico  binary
+*.icns binary
+*.woff binary
+*.woff2 binary

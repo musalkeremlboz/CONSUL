@@ -1,0 +1,27 @@
+# Bağımlılıklar
+node_modules/
+
+# Derleme çıktıları
+out/
+dist/
+release/
+.smoke/
+
+# Günlükler ve geçici dosyalar
+*.log
+*.tmp
+shots/
+*.shot.png
+
+# Ortam ve gizli bilgiler — ASLA commit edilmez
+.env
+.env.*
+*.local
+*.pem
+*.p12
+*.pfx
+*.keystore
+
+# İşletim sistemi
+.DS_Store
+Thumbs.db

@@ -1,0 +1,51 @@
+name: CI
+
+# Her itme ve PR'da üç platformda da doğrulama yapılır: CONSUL cross-platform
+# olduğunu iddia ediyorsa bunun sürekli kanıtlanması gerekir.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Bağımlılıklar
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tip denetimi
+        run: npm run typecheck
+
+      - name: Testler
+        run: npm run test
+
+      - name: Derleme
+        run: npm run build
+
+      # Yerel PTY bağlaması gerçekten çalışıyor mu — Linux'ta başsız koşabilir
+      - name: PTY dumanı testi
+        if: runner.os == 'Linux'
+        run: npm run smoke:pty

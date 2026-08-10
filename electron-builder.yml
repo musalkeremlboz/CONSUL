@@ -1,0 +1,92 @@
+appId: dev.consul.terminal
+productName: CONSUL
+copyright: © 2026 Musa Kerem Boz
+
+directories:
+  buildResources: build
+  output: release
+
+files:
+  - out/**
+  - '!**/*.map'
+
+asar: true
+asarUnpack:
+  # PTY yerel modülü asar içinden çalıştırılamaz — gerçek dosya olarak açılmalı
+  - node_modules/@lydell/node-pty/**
+  - node_modules/@lydell/node-pty-*/**
+
+npmRebuild: false
+
+# Otomatik güncelleme: GitHub Releases.
+# `owner`/`repo` yayın öncesi doldurulur (bkz. docs/RELEASE.md); değerler
+# derleme sırasında app-update.yml'ye gömülür.
+publish:
+  - provider: github
+    owner: REPO_OWNER
+    repo: CONSUL
+    releaseType: release
+
+win:
+  icon: build/icon.ico
+  artifactName: CONSUL-Setup-${version}.${ext}
+  target:
+    - target: nsis
+      arch: [x64]
+  # Kod imzalama sertifikası CI ortamında (secrets) sağlanırsa kullanılır.
+  # Sertifika yoksa imzasız üretilir — sahte imzalama YAPILMAZ.
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: CONSUL
+  # CONSUL Developer için ikinci kısayol (ayrı uygulama girişi)
+  include: build/installer.nsh
+  deleteAppDataOnUninstall: false
+
+mac:
+  icon: build/icon-256.png
+  category: public.app-category.developer-tools
+  artifactName: CONSUL-${version}-${arch}.${ext}
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    NSAppleEventsUsageDescription: CONSUL terminal oturumlarını yönetmek için kullanır.
+
+dmg:
+  title: CONSUL ${version}
+
+linux:
+  icon: build/icon-256.png
+  category: Development
+  synopsis: Modern, sekmeli, proje hafızalı geliştirici terminali
+  artifactName: CONSUL-${version}-${arch}.${ext}
+  desktop:
+    entry:
+      Name: CONSUL
+      Comment: Geliştirici terminali
+      Categories: Development;Utility;TerminalEmulator;
+  target:
+    - target: AppImage
+      arch: [x64]
+    - target: deb
+      arch: [x64]
+
+deb:
+  depends:
+    - libgtk-3-0
+    - libnotify4
+    - libnss3
+    - libxss1
+    - libxtst6
+    - xdg-utils
+    - libatspi2.0-0
+    - libsecret-1-0
